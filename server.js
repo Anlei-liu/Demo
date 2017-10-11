@@ -10,7 +10,7 @@ if (process.env.NODE_ENV !== 'production') {
     const compiler = webpack(webpackConfig);
     const webpackDevMiddleware = require('webpack-dev-middleware');
     app.use(webpackDevMiddleware(compiler, {
-        publicPath: '/',
+        publicPath: webpackConfig.output.publicPath,
         stats: {
             colors: true
         },

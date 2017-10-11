@@ -2,18 +2,22 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const UglifyjsPlugin = require('uglifyjs-webpack-plugin')
 module.exports = {
     entry: {
         app: ['webpack-hot-middleware/client','./src/app.js'],
         vendor: [
             'react',
             'react-dom'
-        ]
+        ],
     },
     output: {
         filename: '[name].[hash].js',
-        path: path.resolve(__dirname, 'public')
+        path: path.resolve(__dirname, 'public'),
+        publicPath: '/'
     },
+    devtool: 'inlne-source-map',
     module: {
         rules: [{
             test: /\.js$/,
@@ -47,14 +51,18 @@ module.exports = {
     },
     plugins: [
         new ExtractTextPlugin('styles.css'),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.HashedModuleIdsPlugin(),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor'
+        new webpack.HotModuleReplacementPlugin(), //热更新
+        new webpack.NoEmitOnErrorsPlugin(), //编译完成提示错误
+        new webpack.HashedModuleIdsPlugin(), //防止公共模块多次打包
+        new webpack.optimize.CommonsChunkPlugin({ //公共模块
+            name: ['vendor', 'manifest']
         }),
-        // new webpack.ClearWebpackPlugin(['public']),
-        new HtmlWebpackPlugin({
+        new webpack.optimize.CommonsChunkPlugin({ //公共模块
+            name: 'runtime'
+        }),
+        // new UglifyjsPlugin(),  //树抖动
+        new CleanWebpackPlugin(['public']), //清理打包文件夹
+        new HtmlWebpackPlugin({  //模板插件
             title: 'app',
             templateContent: function (templateParams, compilation) {
                 return `<!doctype html>
