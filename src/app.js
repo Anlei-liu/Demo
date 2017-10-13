@@ -4,13 +4,18 @@ import {
     BrowserRouter as Router,
     Route,
 } from 'react-router-dom'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import reducers from './reducers'
+const store = createStore(reducers)
+
 
 import HomePage from './containers/HomePage'
 ReactDOM.render(
     <Router>
-        <div>
+        <Provider store={ store }>
             <Route exact path="/" component={ HomePage }/>
-        </div>
+        </Provider>
     </Router>
     , document.querySelector('#main'))
 
