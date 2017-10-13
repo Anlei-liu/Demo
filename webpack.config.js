@@ -26,7 +26,7 @@ module.exports = {
                 loader: 'babel-loader',
                 options: {
                     presets: ['env', 'stage-0', 'react'],
-                    plugins: [['import', {libraryName: 'antd', style: 'css'}]]
+                    plugins: []
                 }
             }
         }, {
