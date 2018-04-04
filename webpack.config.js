@@ -4,6 +4,7 @@ const UglifyjsPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
 
 module.exports = merge(common, {
+    devtool: 'inline-source-map',
     mode: 'production',
     entry: {
         app: './src/app.js',

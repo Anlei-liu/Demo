@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Menu } from 'antd';
 
 import styles from './styles.scss';
 
@@ -10,14 +11,13 @@ class Header extends React.Component {
 
   render() {
     return (
-      <header>
-        <ul className={styles.nav}>
-          <div>
-            <li className={styles.red}><Link to="/">Home</Link></li>
-            <li className={styles.red}><Link to="/login">login</Link></li>
-          </div>
-        </ul>
-      </header>
+        <Menu
+            theme="dark"
+            mode="horizontal"
+            style={{ lineHeight: '64px' }} >
+          <Menu.Item key="1"><Link to="/">Home</Link></Menu.Item>
+          <Menu.Item key="2"><Link to="/login">login</Link></Menu.Item>
+        </Menu>
     );
   }
 }

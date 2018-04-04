@@ -1,4 +1,5 @@
-import { takeEvery, select, call } from 'redux-saga/effects';
+import { takeLatest, select, call, race, take, cancel } from 'redux-saga/effects';
+// import { LOCATION_CHANGE } from 'react-router-redux';
 import { ADD, add } from './actions';
 import { selectNum } from './selectors';
 import { getText } from '../../utils/fetch';
@@ -9,7 +10,7 @@ const addNum = function* () {
 };
 
 const watchAddNum = function* () {
-  yield takeEvery(ADD, addNum);
+    yield takeLatest(ADD, addNum)
 };
 
 export default [

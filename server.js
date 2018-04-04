@@ -1,17 +1,18 @@
 import express from 'express';
-import webpack from 'webpack';
-import webpackConfig from './config/webpack.dev';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
+import fallback from 'connect-history-api-fallback';
 import bodyParser from 'body-parser';
 import apiRoutes from './server/index';
+import webpackConfig from './config/webpack.dev';
+import webpack from 'webpack';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
 
 const app = express();
 
+app.use('/', fallback());
 app.use(express.static('assets'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 app.use('/api', apiRoutes);
 
 if (process.env.NODE_ENV !== 'production') {
