@@ -1,19 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
-import createHistory  from 'history/createBrowserHistory'
-// import { syncHistoryWithStore } from 'react-router-redux'
+import { BrowserRouter as Router } from 'react-router-dom';
+import '../node_modules/antd/dist/antd.css';
 
 import store from './middleware/store';
 import App from './components/App';
-const history = createHistory();
-
-// const history = syncHistoryWithStore(createHistory(), store)
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={ history }>
+    <Router>
       <App />
     </Router>
   </Provider>

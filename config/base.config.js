@@ -1,32 +1,19 @@
-const path = require('path');
-
-const webpack = require('webpack');
-const UglifyjsPlugin = require('uglifyjs-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const html = require('./src/html')
+import path from 'path'
+import webpack from 'webpack'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import html from '../src/html'
 const devMode = process.env.NODE_ENV !== 'production'
 
-module.exports = {
-  devtool: 'none',
-  mode: 'production',
-  entry: {
-    app: ['./src/app.js'],
-  },
+export default {
   output: {
-    filename: '[name].[hash].js',
-    chunkFilename: '[name].[hash].chunk.js',
-    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].[contenthash].js',
+    chunkFilename: '[name].[contenthash].js',
+    path: path.resolve(__dirname, '..', 'dist'),
     publicPath: '/',
   },
   optimization: {
-    minimizer: [
-      new UglifyjsPlugin()
-    ],
-    runtimeChunk: {
-      name: 'runtime'
-    },
+    runtimeChunk: true,
     noEmitOnErrors: false,
     splitChunks: {
       cacheGroups: {
@@ -42,6 +29,10 @@ module.exports = {
         }
       },
     },
+  },
+  resolve: {
+    modules: ['node_modules'],
+    extensions: ['.wasm', '.mjs', '.js', '.json']
   },
   module: {
     rules: [{
@@ -66,7 +57,6 @@ module.exports = {
     }],
   },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       title: 'app',
       templateContent: html(),

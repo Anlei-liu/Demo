@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Layout, Breadcrumb } from 'antd';
-
+import Loadable from 'react-loadable'
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import HomePage from '../../containers/HomePage';
-import Login from '../../containers/Login';
+// import Login from '../../containers/Login';
 
+const LoadableComponent = Loadable({
+  loader: () => import('../../containers/Login'),
+  loading: <div>loading</div>,
+})
 
 class App extends Component {
   render() {
@@ -25,7 +29,7 @@ class App extends Component {
           <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
             <Switch>
                 <Route exact path="/" component={HomePage} />
-                <Route exact path="/login" component={Login} />
+                <Route exact path="/login" component={LoadableComponent} />
             </Switch>
           </div>
         </Layout.Content>

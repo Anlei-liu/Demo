@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import 'jsdom';
 import 'jsdom-global/register';
@@ -46,4 +47,3 @@ describe('homePage', () => {
     });
   });
 });
-

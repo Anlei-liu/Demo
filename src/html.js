@@ -1,4 +1,7 @@
-<!doctype html>
+
+module.exports = function () {
+  return `
+  <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,3 +14,5 @@
 <div id="main"></div>
 </body>
 </html>
+  `
+}

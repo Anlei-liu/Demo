@@ -1,24 +1,24 @@
 import express from 'express';
 import fallback from 'connect-history-api-fallback';
 import bodyParser from 'body-parser';
-import apiRoutes from './server/index';
-import webpackConfig from './config/webpack.dev';
+import devConfig from './config/dev.config';
+import prodConfig from './config/prod.config'
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
+import fs from 'fs'
 
 const app = express();
 
 app.use('/', fallback());
-app.use(express.static('assets'));
+app.use(express.static('dist'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use('/api', apiRoutes);
 
 if (process.env.NODE_ENV !== 'production') {
-  const compiler = webpack(webpackConfig);
+  const compiler = webpack(devConfig);
   app.use(webpackDevMiddleware(compiler, {
-    publicPath: webpackConfig.output.publicPath,
+    publicPath: devConfig.output.publicPath,
     stats: {
       colors: true,
     },
@@ -41,8 +41,18 @@ app.use((err, req, res, next) => {
   res.send(err);
 });
 
+if (process.env.NODE_ENV === 'production') {
+  const compiler = webpack(prodConfig);
+  compiler.run((err, stats) => {
+    if (err) {
+      return
+    }
+    let assets = stats.toJson().assets
+    console.log(assets)
+  })
+}
+
 const server = app.listen(8080, () => {
   const port = server.address().port;
   console.log('open http://127.0.0.1:%s', port);
 });
-
